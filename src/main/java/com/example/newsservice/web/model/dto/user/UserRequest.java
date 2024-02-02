@@ -1,4 +1,4 @@
-package com.example.newsservice.web.model.user;
+package com.example.newsservice.web.model.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
-    private Long id;
+public class UserRequest {
     private String name;
 }

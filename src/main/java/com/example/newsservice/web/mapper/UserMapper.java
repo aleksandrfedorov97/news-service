@@ -1,9 +1,9 @@
 package com.example.newsservice.web.mapper;
 
 import com.example.newsservice.model.User;
-import com.example.newsservice.web.model.user.UserListResponse;
-import com.example.newsservice.web.model.user.UserRequest;
-import com.example.newsservice.web.model.user.UserResponse;
+import com.example.newsservice.web.model.dto.user.UserListResponse;
+import com.example.newsservice.web.model.dto.user.UserRequest;
+import com.example.newsservice.web.model.dto.user.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

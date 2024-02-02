@@ -1,4 +1,4 @@
-package com.example.newsservice.web.model.user;
+package com.example.newsservice.web.model.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

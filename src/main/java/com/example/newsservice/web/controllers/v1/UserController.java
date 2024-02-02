@@ -3,9 +3,9 @@ package com.example.newsservice.web.controllers.v1;
 import com.example.newsservice.model.User;
 import com.example.newsservice.service.UserService;
 import com.example.newsservice.web.mapper.UserMapper;
-import com.example.newsservice.web.model.user.UserListResponse;
-import com.example.newsservice.web.model.user.UserRequest;
-import com.example.newsservice.web.model.user.UserResponse;
+import com.example.newsservice.web.model.dto.user.UserListResponse;
+import com.example.newsservice.web.model.dto.user.UserRequest;
+import com.example.newsservice.web.model.dto.user.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.deleteById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
