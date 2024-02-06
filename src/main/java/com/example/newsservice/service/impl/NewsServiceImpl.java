@@ -27,7 +27,7 @@ public class NewsServiceImpl implements NewsService {
         return newsRepository.findById(id)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
-                                MessageFormat.format("News with ID {} not found!", id)
+                                MessageFormat.format("News with ID {0} not found!", id)
                         )
                 );
     }
