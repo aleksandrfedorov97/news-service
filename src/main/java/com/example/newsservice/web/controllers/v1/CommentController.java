@@ -1,5 +1,6 @@
 package com.example.newsservice.web.controllers.v1;
 
+import com.example.newsservice.aop.OwnerRestriction;
 import com.example.newsservice.model.Comment;
 import com.example.newsservice.service.CommentService;
 import com.example.newsservice.web.mapper.CommentMapper;
@@ -55,6 +56,7 @@ public class CommentController {
                 );
     }
 
+    @OwnerRestriction
     @PutMapping("/{id}")
     public ResponseEntity<CommentResponse> update(@PathVariable Long id,
                                                   @RequestBody CommentUpdateRequest commentUpdateRequest) {
@@ -67,6 +69,7 @@ public class CommentController {
         );
     }
 
+    @OwnerRestriction
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         commentService.deleteById(id);

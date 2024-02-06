@@ -3,6 +3,7 @@ package com.example.newsservice.web.mapper;
 import com.example.newsservice.model.News;
 import com.example.newsservice.service.NewsCategoryService;
 import com.example.newsservice.service.UserService;
+import com.example.newsservice.utils.AuthorizationUtils;
 import com.example.newsservice.web.model.dto.news.NewsFindByIdResponse;
 import com.example.newsservice.web.model.dto.news.NewsRequest;
 import com.example.newsservice.web.model.dto.news.NewsResponse;
@@ -26,7 +27,7 @@ public abstract class NewsMapperDelegate implements NewsMapper {
 
         news.setTitle(newsRequest.getTitle());
         news.setBody(newsRequest.getBody());
-        news.setAuthor(userService.findById(newsRequest.getUserId()));
+        news.setAuthor(userService.findById(AuthorizationUtils.getCurrentUserId()));
         news.setCategory(newsCategoryService.findById(newsRequest.getNewsCategoryId()));
         news.setComments(null);
 

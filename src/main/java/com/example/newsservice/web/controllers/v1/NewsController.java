@@ -1,5 +1,6 @@
 package com.example.newsservice.web.controllers.v1;
 
+import com.example.newsservice.aop.OwnerRestriction;
 import com.example.newsservice.model.News;
 import com.example.newsservice.service.NewsService;
 import com.example.newsservice.web.mapper.NewsMapper;
@@ -58,6 +59,7 @@ public class NewsController {
                 );
     }
 
+    @OwnerRestriction
     @PutMapping("/{id}")
     public ResponseEntity<NewsFindByIdResponse> update(@PathVariable Long id, @RequestBody NewsRequest newsRequest) {
         News updatedNews = newsService.update(newsMapper.newsRequestToNews(id, newsRequest));
@@ -67,6 +69,7 @@ public class NewsController {
         );
     }
 
+    @OwnerRestriction
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         newsService.deleteById(id);
