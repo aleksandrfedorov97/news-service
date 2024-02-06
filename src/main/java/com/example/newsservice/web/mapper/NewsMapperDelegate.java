@@ -4,11 +4,14 @@ import com.example.newsservice.model.News;
 import com.example.newsservice.service.NewsCategoryService;
 import com.example.newsservice.service.UserService;
 import com.example.newsservice.utils.AuthorizationUtils;
+import com.example.newsservice.web.model.dto.comment.CommentResponse;
 import com.example.newsservice.web.model.dto.news.NewsFindByIdResponse;
 import com.example.newsservice.web.model.dto.news.NewsRequest;
 import com.example.newsservice.web.model.dto.news.NewsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -68,9 +71,16 @@ public abstract class NewsMapperDelegate implements NewsMapper {
         newsFindByIdResponse.setAuthorId(news.getAuthor().getId());
         newsFindByIdResponse.setCategoryId(news.getCategory().getId());
         newsFindByIdResponse.setCreateAt(news.getCreateAt());
-        newsFindByIdResponse.setComments(news.getComments().stream()
-                .map(commentMapper::commentToCommentResponse)
-                .collect(Collectors.toList()));
+
+        List<CommentResponse> commentResponseList = new ArrayList<>();
+
+        if (news.getComments() != null) {
+            commentResponseList = news.getComments().stream()
+                    .map(commentMapper::commentToCommentResponse)
+                    .collect(Collectors.toList());
+        }
+
+        newsFindByIdResponse.setComments(commentResponseList);
 
         return newsFindByIdResponse;
     }
