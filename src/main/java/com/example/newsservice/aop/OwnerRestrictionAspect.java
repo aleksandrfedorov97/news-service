@@ -46,7 +46,7 @@ public class OwnerRestrictionAspect {
                     break;
                 case "Comment":
                     Comment comment = commentService.findById(entityId);
-                    if (comment.getAuthor().getId().equals(userId)) {
+                    if (!comment.getAuthor().getId().equals(userId)) {
                         throw new SecurityException("User is not author entity!");
                     }
                     break;
