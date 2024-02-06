@@ -27,21 +27,11 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
 
-    @GetMapping
-    public ResponseEntity<CommentListResponse> findAll() {
-
+    @GetMapping("/{newsId}")
+    public ResponseEntity<CommentListResponse> findAllByNewsId(@PathVariable Long newsId) {
         return ResponseEntity.ok(
                 commentMapper.commentListToCommentListResponse(
-                        commentService.findAll()
-                )
-        );
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CommentResponse> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                commentMapper.commentToCommentResponse(
-                        commentService.findById(id)
+                        commentService.findAllByNewsId(newsId)
                 )
         );
     }

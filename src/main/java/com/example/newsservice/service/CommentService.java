@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface CommentService {
     List<Comment> findAll();
+    List<Comment> findAllByNewsId(Long newsId);
     Comment findById(Long id);
     Comment create(Comment comment);
     Comment update(Comment comment);

@@ -2,8 +2,11 @@ package com.example.newsservice.service.impl;
 
 import com.example.newsservice.exceptions.EntityNotFoundException;
 import com.example.newsservice.model.Comment;
+import com.example.newsservice.model.News;
 import com.example.newsservice.repository.CommentRepository;
+import com.example.newsservice.repository.NewsRepository;
 import com.example.newsservice.service.CommentService;
+import com.example.newsservice.service.NewsService;
 import com.example.newsservice.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,12 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> findAll() {
         return commentRepository.findAll();
+    }
+
+    @Override
+    public List<Comment> findAllByNewsId(Long newsId) {
+
+        return commentRepository.findAllByNewsId(newsId);
     }
 
     @Override

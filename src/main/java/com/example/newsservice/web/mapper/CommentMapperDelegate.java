@@ -23,8 +23,6 @@ public abstract class CommentMapperDelegate implements CommentMapper {
         comment.setNews(newsService.findById(commentCreateRequest.getNewsId()));
         comment.setAuthor(userService.findById(AuthorizationUtils.getCurrentUserId()));
 
-        System.out.println(comment.getAuthor().getName());
-
         return comment;
     }
     @Override
