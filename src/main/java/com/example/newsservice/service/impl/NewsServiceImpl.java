@@ -3,9 +3,13 @@ package com.example.newsservice.service.impl;
 import com.example.newsservice.exceptions.EntityNotFoundException;
 import com.example.newsservice.model.News;
 import com.example.newsservice.repository.NewsRepository;
+import com.example.newsservice.repository.NewsSpecification;
 import com.example.newsservice.service.NewsService;
 import com.example.newsservice.utils.BeanUtils;
+import com.example.newsservice.web.model.dto.news.NewsFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -20,6 +24,14 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<News> findAll() {
         return newsRepository.findAll();
+    }
+
+    @Override
+    public List<News> filterBy(NewsFilter filter) {
+        return newsRepository.findAll(
+                NewsSpecification.withFilter(filter),
+                PageRequest.of(filter.getPageNumber(), filter.getPageSize())
+        ).getContent();
     }
 
     @Override

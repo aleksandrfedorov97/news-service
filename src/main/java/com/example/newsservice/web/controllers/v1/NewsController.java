@@ -4,6 +4,7 @@ import com.example.newsservice.aop.OwnerRestriction;
 import com.example.newsservice.model.News;
 import com.example.newsservice.service.NewsService;
 import com.example.newsservice.web.mapper.NewsMapper;
+import com.example.newsservice.web.model.dto.news.NewsFilter;
 import com.example.newsservice.web.model.dto.news.NewsFindByIdResponse;
 import com.example.newsservice.web.model.dto.news.NewsListResponse;
 import com.example.newsservice.web.model.dto.news.NewsRequest;
@@ -29,11 +30,11 @@ public class NewsController {
     private final NewsMapper newsMapper;
 
     @GetMapping
-    public ResponseEntity<NewsListResponse> findAll() {
+    public ResponseEntity<NewsListResponse> findAll(NewsFilter newsFilter) {
 
         return ResponseEntity.ok(
                 newsMapper.newsListToNewsListResponse(
-                        newsService.findAll()
+                        newsService.filterBy(newsFilter)
                 )
         );
     }
