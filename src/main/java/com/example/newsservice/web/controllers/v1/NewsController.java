@@ -9,6 +9,7 @@ import com.example.newsservice.web.model.dto.news.NewsFindByIdResponse;
 import com.example.newsservice.web.model.dto.news.NewsListResponse;
 import com.example.newsservice.web.model.dto.news.NewsRequest;
 import com.example.newsservice.web.model.dto.news.NewsResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class NewsController {
     private final NewsMapper newsMapper;
 
     @GetMapping
-    public ResponseEntity<NewsListResponse> findAll(NewsFilter newsFilter) {
+    public ResponseEntity<NewsListResponse> findAll(@Valid NewsFilter newsFilter) {
 
         return ResponseEntity.ok(
                 newsMapper.newsListToNewsListResponse(

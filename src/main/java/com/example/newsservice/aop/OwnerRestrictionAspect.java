@@ -1,5 +1,7 @@
 package com.example.newsservice.aop;
 
+import com.example.newsservice.exceptions.NotAuthorizedException;
+import com.example.newsservice.exceptions.NotPermittedException;
 import com.example.newsservice.model.Comment;
 import com.example.newsservice.model.News;
 import com.example.newsservice.service.CommentService;
@@ -25,7 +27,7 @@ public class OwnerRestrictionAspect {
         Long userId = AuthorizationUtils.getCurrentUserId();
 
         if (userId == null) {
-            throw new SecurityException("Not authorized!");
+            throw new NotAuthorizedException("Not authorized!");
         }
 
         String targetClassName = joinPoint.getTarget().getClass().getSimpleName();
@@ -41,13 +43,13 @@ public class OwnerRestrictionAspect {
                 case "News":
                     News news = newsService.findById(entityId);
                     if (!news.getAuthor().getId().equals(userId)) {
-                        throw new SecurityException("User is not author entity!");
+                        throw new NotPermittedException("User is not author entity!");
                     }
                     break;
                 case "Comment":
                     Comment comment = commentService.findById(entityId);
                     if (!comment.getAuthor().getId().equals(userId)) {
-                        throw new SecurityException("User is not author entity!");
+                        throw new NotPermittedException("User is not author entity!");
                     }
                     break;
             }

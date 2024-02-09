@@ -9,7 +9,6 @@ import com.example.newsservice.utils.BeanUtils;
 import com.example.newsservice.web.model.dto.news.NewsFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
