@@ -1,6 +1,7 @@
 package com.example.newsservice.web.mapper;
 
 import com.example.newsservice.model.User;
+import com.example.newsservice.web.model.dto.user.UserCreateRequest;
 import com.example.newsservice.web.model.dto.user.UserListResponse;
 import com.example.newsservice.web.model.dto.user.UserRequest;
 import com.example.newsservice.web.model.dto.user.UserResponse;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 public interface UserMapper {
 
     User userRequestToUser(UserRequest userRequest);
+    User userCreateRequestToUser(UserCreateRequest userCreateRequest);
 
     @Mapping(source = "userId", target = "id")
     User userRequestToUser(Long userId, UserRequest userRequest);
