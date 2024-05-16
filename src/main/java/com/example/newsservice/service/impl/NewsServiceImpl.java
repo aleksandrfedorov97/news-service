@@ -4,11 +4,14 @@ import com.example.newsservice.exceptions.EntityNotFoundException;
 import com.example.newsservice.model.News;
 import com.example.newsservice.repository.NewsRepository;
 import com.example.newsservice.repository.NewsSpecification;
+import com.example.newsservice.security.UserDetailsImpl;
 import com.example.newsservice.service.NewsService;
 import com.example.newsservice.utils.BeanUtils;
 import com.example.newsservice.web.model.dto.news.NewsFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -45,11 +48,21 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public News create(News news) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        news.setAuthor(userDetails.getUser());
+
         return newsRepository.save(news);
     }
 
     @Override
     public News update(News news) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        news.setAuthor(userDetails.getUser());
+
         News existedNews = findById(news.getId());
 
         BeanUtils.copyNonNullProperties(news, existedNews);

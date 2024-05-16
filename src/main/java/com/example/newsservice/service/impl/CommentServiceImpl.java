@@ -5,10 +5,13 @@ import com.example.newsservice.model.Comment;
 import com.example.newsservice.model.News;
 import com.example.newsservice.repository.CommentRepository;
 import com.example.newsservice.repository.NewsRepository;
+import com.example.newsservice.security.UserDetailsImpl;
 import com.example.newsservice.service.CommentService;
 import com.example.newsservice.service.NewsService;
 import com.example.newsservice.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -42,11 +45,21 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment create(Comment comment) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        comment.setAuthor(userDetails.getUser());
+
         return commentRepository.save(comment);
     }
 
     @Override
     public Comment update(Comment comment) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        comment.setAuthor(userDetails.getUser());
+
         Comment existedComment = findById(comment.getId());
 
         BeanUtils.copyNonNullProperties(comment, existedComment);
