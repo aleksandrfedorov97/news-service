@@ -9,6 +9,7 @@ import com.example.newsservice.web.model.dto.newscategory.NewsCategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class NewsCategoryController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_MODERATOR')")
     public ResponseEntity<NewsCategoryResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(
                 newsCategoryMapper.newsCategoryToNewsCategoryResponse(
@@ -46,6 +48,7 @@ public class NewsCategoryController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
     public ResponseEntity<NewsCategoryResponse> create(@RequestBody NewsCategoryRequest newsCategoryRequest) {
         NewsCategory newNewsCategory = newsCategoryService.create(
                 newsCategoryMapper.newsCategoryRequestToNewsCategory(newsCategoryRequest)
@@ -56,6 +59,7 @@ public class NewsCategoryController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
     public ResponseEntity<NewsCategoryResponse> update(@PathVariable Long id,
                                                        @RequestBody NewsCategoryRequest newsCategoryRequest) {
         NewsCategory updatedNewsCategory = newsCategoryService.update(
@@ -68,6 +72,7 @@ public class NewsCategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         newsCategoryService.deleteById(id);
 

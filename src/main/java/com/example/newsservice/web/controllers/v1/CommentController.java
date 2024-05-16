@@ -1,7 +1,8 @@
 package com.example.newsservice.web.controllers.v1;
 
-import com.example.newsservice.aop.OwnerRestriction;
+import com.example.newsservice.aop.comment.CommentOwnerRestriction;
 import com.example.newsservice.model.Comment;
+import com.example.newsservice.model.user.RoleType;
 import com.example.newsservice.service.CommentService;
 import com.example.newsservice.web.mapper.CommentMapper;
 import com.example.newsservice.web.model.dto.comment.CommentListResponse;
@@ -11,6 +12,7 @@ import com.example.newsservice.web.model.dto.comment.CommentUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ public class CommentController {
     private final CommentMapper commentMapper;
 
     @GetMapping("/{newsId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_MODERATOR')")
     public ResponseEntity<CommentListResponse> findAllByNewsId(@PathVariable Long newsId) {
         return ResponseEntity.ok(
                 commentMapper.commentListToCommentListResponse(
@@ -37,6 +40,7 @@ public class CommentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_MODERATOR')")
     public ResponseEntity<CommentResponse> create(@RequestBody CommentCreateRequest commentRequest) {
         Comment newComment = commentService.create(commentMapper.commentCreateRequestToComment(commentRequest));
 
@@ -46,8 +50,9 @@ public class CommentController {
                 );
     }
 
-    @OwnerRestriction
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_MODERATOR')")
+    @CommentOwnerRestriction({RoleType.ROLE_ADMIN, RoleType.ROLE_USER, RoleType.ROLE_MODERATOR})
     public ResponseEntity<CommentResponse> update(@PathVariable Long id,
                                                   @RequestBody CommentUpdateRequest commentUpdateRequest) {
         Comment updatedComment = commentService.update(
@@ -59,8 +64,9 @@ public class CommentController {
         );
     }
 
-    @OwnerRestriction
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_MODERATOR')")
+    @CommentOwnerRestriction(RoleType.ROLE_USER)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         commentService.deleteById(id);
 
